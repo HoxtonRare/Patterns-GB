@@ -2,31 +2,29 @@
 
 void __fastcall FileLoggerSingletoneProxy::OpenLogFile(const std::string& FN)
 {
-    logOut.open(FN, std::ios_base::out);
+    fileLog->getInstance().OpenLogFile(FN);
 }
 
 void FileLoggerSingletoneProxy::CloseLogFile()
 {
-    if (logOut.is_open())
-    {
-        logOut.close();
-    }
+    fileLog->getInstance().CloseLogFile();
 }
 
 void __fastcall FileLoggerSingletoneProxy::WriteToLog(const std::string& str)
 {
     num++;
-    logOut << num << ": " << FileLoggerSingletone::getInstance().GetCurDateTime() << " - " << str << std::endl;
+    line = std::to_string(num) + ": " + fileLog->getInstance().GetCurDateTime() + " - " + str;
+    fileLog->getInstance().WriteToLog(line);
 }
-
 void __fastcall FileLoggerSingletoneProxy::WriteToLog(const std::string& str, int n)
 {
     num++;
-    logOut << num << ": " << FileLoggerSingletone::getInstance().GetCurDateTime() << " - " << str << n << std::endl;
+    line = std::to_string(num) + ": " + fileLog->getInstance().GetCurDateTime() + " - " + str;
+    fileLog->getInstance().WriteToLog(line, n);
 }
-
 void __fastcall FileLoggerSingletoneProxy::WriteToLog(const std::string& str, double d)
 {
     num++;
-    logOut << num << ": " << FileLoggerSingletone::getInstance().GetCurDateTime() << " - " << str << d << std::endl;
+    line = std::to_string(num) + ": " + fileLog->getInstance().GetCurDateTime() + " - " + str;
+    fileLog->getInstance().WriteToLog(line, d);
 }

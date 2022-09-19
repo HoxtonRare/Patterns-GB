@@ -25,6 +25,7 @@ public:
 		void __fastcall WriteToLog(const std::string& str, int n);
 		void __fastcall WriteToLog(const std::string& str, double d);
 private:
+	std::ofstream logOut;
 	FileLoggerSingletone() {};
 	FileLoggerSingletone(const FileLoggerSingletone& root) = delete;
 	FileLoggerSingletone& operator=(const FileLoggerSingletone&) = delete;

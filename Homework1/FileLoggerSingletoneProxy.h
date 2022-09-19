@@ -6,7 +6,9 @@
 class FileLoggerSingletoneProxy : public LoggerSingletone
 {
 private:
+	std::string line;
 	int num = 0;
+	FileLoggerSingletone* fileLog;
 	FileLoggerSingletoneProxy() {};
 	FileLoggerSingletoneProxy(const FileLoggerSingletoneProxy& ss) = delete;
 	FileLoggerSingletoneProxy& operator=(const FileLoggerSingletoneProxy&) = delete;
