@@ -1,0 +1,1 @@
+#include "LoggerSingletone.h"
