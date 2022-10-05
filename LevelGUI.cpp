@@ -21,9 +21,9 @@ void LevelGUI::Draw() const
     cout << buf;
     GotoXY(x, y + height);
     cout << buf;
-    delete [] buf;
+    delete[] buf;
     buf = nullptr;
-    
+
     for (size_t i = size_t(y); i < height + y; i++)
     {
         GotoXY(x, (double)i);
