@@ -4,7 +4,7 @@
 
 #include "DestroyableGroundObject.h"
 
-class Tank : public DestroyableGroundObject
+class House : public DestroyableGroundObject
 {
 public:
 
@@ -16,6 +16,5 @@ public:
 
 private:
 
-	const uint16_t score = 30;
+	const uint16_t score = 40;
 };
-
