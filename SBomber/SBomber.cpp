@@ -9,6 +9,10 @@
 #include "Tank.h"
 #include "House.h"
 
+#include <memory>
+#include <iostream>
+#include <ctime>
+
 using namespace std;
 using namespace MyTools;
 
@@ -52,13 +56,22 @@ SBomber::SBomber()
     pTank->SetWidth(13);
     pTank->SetPos(30, groundY - 1);
     vecStaticObj.push_back(pTank);
-
     pTank = new Tank;
     pTank->SetWidth(13);
     pTank->SetPos(50, groundY - 1);
     vecStaticObj.push_back(pTank);
 
-    House * pHouse = new House;
+    House* pHouse = new House;
+
+    MyHouseBuilderA houseDefault;
+    Director::createMyHouse(houseDefault, *pHouse);
+
+    srand(time(0));
+    if (rand() % 2 == 0)
+    {
+        Director::createMyHouse(houseDefault, *pHouse);
+    }
+
     pHouse->SetWidth(13);
     pHouse->SetPos(80, groundY - 1);
     vecStaticObj.push_back(pHouse);
@@ -71,6 +84,8 @@ SBomber::SBomber()
     pBomb->SetSize(SMALL_CRATER_SIZE);
     vecDynamicObj.push_back(pBomb);
     */
+
+    implementer = new CollisionDetector(this);
 }
 
 SBomber::~SBomber()
@@ -109,51 +124,9 @@ void SBomber::CheckObjects()
 {
     WriteToLog(string(__FUNCTION__) + " was invoked");
 
-    CheckPlaneAndLevelGUI();
-    CheckBombsAndGround();
+    implementer->CheckPlaneAndLevelGUI();
+    implementer->CheckBombsAndGround();
 };
-
-void SBomber::CheckPlaneAndLevelGUI()
-{
-    if (FindPlane()->GetX() > FindLevelGUI()->GetFinishX())
-    {
-        exitFlag = true;
-    }
-}
-
-void SBomber::CheckBombsAndGround() 
-{
-    vector<Bomb*> vecBombs = FindAllBombs();
-    Ground* pGround = FindGround();
-    const double y = pGround->GetY();
-    for (size_t i = 0; i < vecBombs.size(); i++)
-    {
-        if (vecBombs[i]->GetY() >= y) // Пересечение бомбы с землей
-        {
-            pGround->AddCrater(vecBombs[i]->GetX());
-            CheckDestoyableObjects(vecBombs[i]);
-            DeleteDynamicObj(vecBombs[i]);
-        }
-    }
-
-}
-
-void SBomber::CheckDestoyableObjects(Bomb * pBomb)
-{
-    vector<DestroyableGroundObject*> vecDestoyableObjects = FindDestoyableGroundObjects();
-    const double size = pBomb->GetWidth();
-    const double size_2 = size / 2;
-    for (size_t i = 0; i < vecDestoyableObjects.size(); i++)
-    {
-        const double x1 = pBomb->GetX() - size_2;
-        const double x2 = x1 + size;
-        if (vecDestoyableObjects[i]->isInside(x1, x2))
-        {
-            score += vecDestoyableObjects[i]->GetScore();
-            DeleteStaticObj(vecDestoyableObjects[i]);
-        }
-    }
-}
 
 void SBomber::DeleteDynamicObj(DynamicObject* pObj)
 {
@@ -364,5 +337,56 @@ void SBomber::DropBomb()
         vecDynamicObj.push_back(pBomb);
         bombsNumber--;
         score -= Bomb::BombCost;
+    }
+}
+
+void CollisionDetector::CheckPlaneAndLevelGUI()
+{
+    if (_bomber->FindPlane()->GetX() > _bomber->FindLevelGUI()->GetFinishX())
+    {
+        _bomber->exitFlag = true;
+    }
+}
+
+void CollisionDetector::CheckBombsAndGround()
+{
+    std::vector<Bomb*> vecBombs = _bomber->FindAllBombs();
+    Ground* pGround = _bomber->FindGround();
+    const double y = pGround->GetY();
+    for (size_t i = 0; i < vecBombs.size(); i++)
+    {
+        if (vecBombs[i]->GetY() >= y)
+        {
+            pGround->AddCrater(vecBombs[i]->GetX());
+            CheckDestoyableObjects(vecBombs[i]);
+            _bomber->DeleteDynamicObj(vecBombs[i]);
+        }
+    }
+
+    Plane* plane = _bomber->FindPlane();
+    if (plane->GetY() >= y)
+    {
+        pGround->AddCrater(plane->GetX());
+        CheckDestoyableObjects(plane);
+        _bomber->DeleteDynamicObj(plane);
+        _bomber->exitFlag = true;
+    }
+
+}
+
+void CollisionDetector::CheckDestoyableObjects(DynamicObject* obj)
+{
+    std::vector<DestroyableGroundObject*> vecDestoyableObjects = _bomber->FindDestoyableGroundObjects();
+    const double size = obj->GetWidth();
+    const double size_2 = size / 2;
+    for (size_t i = 0; i < vecDestoyableObjects.size(); i++)
+    {
+        const double x1 = obj->GetX() - size_2;
+        const double x2 = x1 + size;
+        if (vecDestoyableObjects[i]->isInside(x1, x2))
+        {
+            _bomber->score += vecDestoyableObjects[i]->GetScore();
+            _bomber->DeleteStaticObj(vecDestoyableObjects[i]);
+        }
     }
 }
