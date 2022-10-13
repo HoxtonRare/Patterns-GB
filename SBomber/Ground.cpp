@@ -10,7 +10,7 @@ using namespace MyTools;
 
 void Crater::Draw() const
 {
-    if (width == SMALL_CRATER_SIZE) // Рисование воронки в 9 символов шириной
+    if (width == SMALL_CRATER_SIZE) 
     {
         GotoXY(x - 4, y + 1);
         cout << "==     ==";
@@ -61,7 +61,7 @@ void Ground::Draw() const
         }
 
         GotoXY((double)X, y);
-        buf[bufSize-1] = '\0';
+        buf[bufSize - 1] = '\0';
         cout << buf;
 
         for (size_t i = 0; i < vecCrates.size(); i++)

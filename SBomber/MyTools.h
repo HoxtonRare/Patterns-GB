@@ -26,30 +26,17 @@ namespace MyTools {
         CC_White
     };
 
-	//=============================================================================================
+    //=============================================================================================
 
-	void ClrScr();
+    void ClrScr();
 
-	void __fastcall GotoXY(double x, double y);
+    void __fastcall GotoXY(double x, double y);
 
-	uint16_t GetMaxX();
+    uint16_t GetMaxX();
 
-	uint16_t GetMaxY();
+    uint16_t GetMaxY();
 
     void SetColor(ConsoleColor color);
 
-	//=============================================================================================
-
-	void __fastcall OpenLogFile(const std::string& FN);
-
-	void CloseLogFile();
-
-	void __fastcall WriteToLog(const std::string& str);
-
-	void __fastcall WriteToLog(const std::string& str, int n);
-
-	void __fastcall WriteToLog(const std::string& str, double d);
-
-	//=============================================================================================
 
 };

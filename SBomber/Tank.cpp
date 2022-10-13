@@ -35,10 +35,10 @@ void Tank::Draw() const
 	MyTools::SetColor(CC_Brown);
 	GotoXY(x, y - 3);
 	cout << "    #####";
-	GotoXY(x-2, y - 2);
+	GotoXY(x - 2, y - 2);
 	cout << "#######   #";
 	GotoXY(x, y - 1);
 	cout << "    #####";
-	GotoXY(x,y);
+	GotoXY(x, y);
 	cout << " ###########";
 }
