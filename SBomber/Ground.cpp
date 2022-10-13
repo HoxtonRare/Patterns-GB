@@ -61,7 +61,7 @@ void Ground::Draw() const
         }
 
         GotoXY((double)X, y);
-        buf[bufSize-1] = '\0';
+        buf[bufSize - 1] = '\0';
         cout << buf;
 
         for (size_t i = 0; i < vecCrates.size(); i++)

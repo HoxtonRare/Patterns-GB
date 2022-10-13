@@ -39,8 +39,7 @@ public:
 
 private:
 
-	bool __fastcall isInsideAnyCrater(double x) const;
-
 	std::vector<Crater> vecCrates;
-};
 
+	bool  isInsideAnyCrater(double x) const;
+};

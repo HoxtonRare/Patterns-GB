@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "LevelGUI.h"
 #include "Plane.h"
@@ -8,14 +9,16 @@
 #include "Ground.h"
 #include "Tank.h"
 
+
+using namespace std;
+
 class SBomber
 {
 public:
 
     SBomber();
-    ~SBomber();
-    
-    inline bool GetExitFlag() const { return exitFlag; }
+   
+    bool GetExitFlag() const { return exitFlag; }
 
     void ProcessKBHit();
     void TimeStart();
@@ -24,30 +27,36 @@ public:
     void DrawFrame();
     void MoveObjects();
     void CheckObjects();
+    void AnimateScrolling();
 
 private:
 
-    void CheckPlaneAndLevelGUI();
-    void CheckBombsAndGround();
-    void __fastcall CheckDestoyableObjects(Bomb* pBomb);
+    vector<shared_ptr<DynamicObject>> vecDynamicObj;
+    vector<shared_ptr<GameObject>> vecStaticObj;
 
-    void __fastcall DeleteDynamicObj(DynamicObject * pBomb);
-    void __fastcall DeleteStaticObj(GameObject* pObj);
-
-    Ground * FindGround() const;
-    Plane * FindPlane() const;
-    LevelGUI * FindLevelGUI() const;
-    std::vector<DestroyableGroundObject*> FindDestoyableGroundObjects() const;
-    std::vector<Bomb*> FindAllBombs() const;
-
-    void DropBomb();
-
-    std::vector<DynamicObject*> vecDynamicObj;
-    std::vector<GameObject*> vecStaticObj;
-    
     bool exitFlag;
 
-    uint64_t startTime, finishTime, passedTime;
-    uint16_t bombsNumber, deltaTime, fps;
+    uint64_t startTime;
+    uint64_t finishTime;
+    uint64_t passedTime;
+    uint16_t bombsNumber;
+    uint16_t deltaTime;
+    uint16_t fps;
     int16_t score;
+    uint64_t stateTime;
+
+    void CheckPlaneAndLevelGUI();
+    void CheckBombsAndGround();
+    void __fastcall CheckDestoyableObjects(std::shared_ptr<Bomb> pBomb);
+
+    void __fastcall DeleteDynamicObj(std::shared_ptr<DynamicObject> pBomb);
+    void __fastcall DeleteStaticObj(std::shared_ptr<GameObject> pObj);
+
+    shared_ptr<Ground> FindGround() const;
+    shared_ptr<Plane> FindPlane() const;
+    shared_ptr<LevelGUI> FindLevelGUI() const;
+    vector<shared_ptr<DestroyableGroundObject>> FindDestoyableGroundObjects() const;
+    vector<shared_ptr<Bomb>> FindAllBombs() const;
+
+    void DropBomb();
 };

@@ -11,18 +11,16 @@ void LevelGUI::Draw() const
     MyTools::SetColor(CC_White);
 
     GotoXY(x, y);
-    char* buf = new (nothrow) char[width + 1];
+    auto buf = make_unique<char[]>(width + 1);
     if (buf == nullptr)
     {
         return;
     }
-    memset(buf, '+', width);
+    memset(buf.get(), '+', width);
     buf[width] = '\0';
     cout << buf;
     GotoXY(x, y + height);
     cout << buf;
-    delete [] buf;
-    buf = nullptr;
     
     for (size_t i = size_t(y); i < height + y; i++)
     {

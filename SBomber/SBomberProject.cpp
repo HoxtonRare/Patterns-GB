@@ -32,6 +32,8 @@ int main(void)
 
     } while (!game.GetExitFlag());
 
+    game.AnimateScrolling();
+
     MyTools::CloseLogFile();
 
     return 0;
