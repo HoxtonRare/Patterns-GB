@@ -19,3 +19,8 @@ void Plane::Draw() const
     GotoXY(x + 3, y + 1);
     cout << "////";
 }
+
+void __fastcall Plane::Accept(const Visitor& visitor)
+{
+    visitor.logging(*this);
+}

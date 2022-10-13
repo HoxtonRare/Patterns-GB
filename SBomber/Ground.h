@@ -43,4 +43,3 @@ private:
 
 	std::vector<Crater> vecCrates;
 };
-

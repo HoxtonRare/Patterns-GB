@@ -18,4 +18,3 @@ private:
 
 	const uint16_t score = 40;
 };
-
