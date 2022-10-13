@@ -1,6 +1,7 @@
 
 #include <conio.h>
 #include <windows.h>
+#include <iostream>
 
 #include "MyTools.h"
 #include "SBomber.h"
@@ -8,6 +9,8 @@
 #include "Ground.h"
 #include "Tank.h"
 #include "House.h"
+#include "ColorPlane.h"
+#include "BigPlane.h"
 
 using namespace std;
 using namespace MyTools;
@@ -24,7 +27,24 @@ SBomber::SBomber()
 {
     WriteToLog(string(__FUNCTION__) + " was invoked");
 
-    Plane* p = new Plane;
+
+    int roll = Roll(0, 3);
+    //std::cout << roll;
+    Plane* p = nullptr;
+
+    switch (roll) 
+    {
+    case 1:
+        p = new ColorPlane;
+        break;
+    case 2:
+        p = new BigPlane;
+        break;
+    default:
+        p = new Plane;
+    }
+
+    //Plane* p = new Plane;
     p->SetDirection(1, 0.1);
     p->SetSpeed(4);
     p->SetPos(5, 10);
@@ -48,12 +68,14 @@ SBomber::SBomber()
     pGr->SetWidth(width - 2);
     vecStaticObj.push_back(pGr);
 
-    Tank* pTank = new Tank;
+    Mediator* mediator = new Mediator;
+
+    Tank* pTank = new Tank(mediator);
     pTank->SetWidth(13);
     pTank->SetPos(30, groundY - 1);
     vecStaticObj.push_back(pTank);
 
-    pTank = new Tank;
+    pTank = new Tank(mediator);
     pTank->SetWidth(13);
     pTank->SetPos(50, groundY - 1);
     vecStaticObj.push_back(pTank);

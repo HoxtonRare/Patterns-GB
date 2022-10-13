@@ -40,6 +40,19 @@ void LevelGUI::Draw() const
     cout << "BombsNum: " << bombsNumber;
     GotoXY(62, 1);
     cout << "Score: " << score;
+
+    GotoXY(10, height);
+    cout << _current_message;
+}
+
+void LevelGUI::NextMessage()
+{
+    if (static_cast<int>(passedTime / 1000.0) >= period) 
+    {
+        _current_message = messageQueue.front();
+        messageQueue.pop();
+        period += 3;
+    }
 }
 
 void __fastcall LevelGUI::SetParam(uint64_t passedTimeNew, uint64_t fpsNew, uint16_t bombsNumberNew, int16_t scoreNew)

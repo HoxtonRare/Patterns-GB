@@ -42,3 +42,17 @@ void Tank::Draw() const
 	GotoXY(x,y);
 	cout << " ###########";
 }
+
+std::vector<std::string>Tank::messages
+{
+	"This is not Russia, you need to dig deeper.",
+	"Hey Man! Nice Shot!",
+	"Son, you're in the army now!",
+	"The dead know only one thing: it is better to be alive.",
+	"Don't sh*t me, man!",
+	"Were you born a fat, slimy, scumbag puke pieca' sh*t Private Pyle, or did you have to work on it?"
+};
+
+void Tank::addToQueue() {
+	_mediator->addToQueue(messages[Roll(0,5)]);
+}

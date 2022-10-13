@@ -1,13 +1,18 @@
 #pragma once
 
 #include <stdint.h>
+#include <queue>
+#include <string>
+
 
 #include "GameObject.h"
 
 class LevelGUI : public GameObject {
 public:
 
-    LevelGUI() : bombsNumber(0), score(0), passedTime(0), fps(0), height(0) { }
+    friend class Mediator;
+
+    LevelGUI() : bombsNumber(0), score(0), passedTime(0), fps(0), height(0), _current_message("_==_==+=+_") { }
 
     void __fastcall SetParam(uint64_t passedTimeNew, uint64_t fpsNew, uint16_t bombsNumberNew, int16_t scoreNew);
     
@@ -18,6 +23,9 @@ public:
 
     void Draw() const override;
 
+    void NextMessage();
+
+
 private:
 
     uint16_t height;
@@ -26,6 +34,10 @@ private:
     uint64_t passedTime, fps;
     uint16_t bombsNumber;
     int16_t score;
+
+    std::queue <std::string> messageQueue;
+    std::string _current_message;
+    int period = 3;
 };
 
 

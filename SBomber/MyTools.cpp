@@ -1,8 +1,7 @@
-
 #include <conio.h>
 #include <windows.h>
 #include <stdint.h>
-#include <time.h> 
+#include <ctime> 
 
 #include <string>
 #include <iostream>
@@ -11,6 +10,9 @@
 
 
 #include "MyTools.h"
+
+
+
 
 using namespace std;
 
@@ -119,5 +121,10 @@ namespace MyTools {
 
     //=============================================================================================
 
+    int Roll(int first, int end) 
+    {
+        srand(time(0u));
+        return rand() % end + first;
+    }
 
 } // namespace MyTools
